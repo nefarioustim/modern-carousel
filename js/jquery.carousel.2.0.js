@@ -21,7 +21,7 @@
                 "pagination": true,
                 "speed": "fast",
                 "loop": false,
-                "autoplay": 1000
+                "autoplay": false
             };
             
             this.options = $.extend(defaults, config);
@@ -49,6 +49,36 @@
                     }, o.options.autoplay || 5000);
                 }
                 
+                $('<ul class="carousel-nav"><li class="prev"><button>Prev</button></li><li class="next"><button>Next</button></li></ul>').appendTo(carousel);
+                var prev = carousel.find(".carousel-nav .prev"),
+                next = carousel.find(".carousel-nav .next");
+                prev.find("button").click(function(e){
+                    moveBy(e, -1);
+                });
+                next.find("button").click(function(e){
+                    moveBy(e, 1);
+                });
+                
+                var checkNavEnabled = function() {
+                    if (!o.options.loop) {
+                        if (currentPane == 0) {
+                            prev.addClass("disabled");
+                            prev.find("button").get(0).disabled = true;
+                        } else {
+                            prev.removeClass("disabled");
+                            prev.find("button").get(0).disabled = false;
+                        }
+                        if (currentPane == numPanes) {
+                            next.addClass("disabled");
+                            next.find("button").get(0).disabled = true;
+                        } else {
+                            next.removeClass("disabled");
+                            next.find("button").get(0).disabled = false;
+                        }
+                    }
+                };
+                checkNavEnabled();
+                
                 var moveBy = function(e, panes) {
                     if (e) e.preventDefault();
                     currentPane += panes * o.options.panesToMove;
@@ -64,7 +94,9 @@
                     
                     list.animate({
                         left: (-delta * currentPane) + "px"
-                    }, o.options.speed);
+                    }, o.options.speed, function(){
+                        checkNavEnabled();
+                    });
                 };
             });
         }
