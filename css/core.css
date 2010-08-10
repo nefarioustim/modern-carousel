@@ -1,0 +1,20 @@
+html, body {
+    background: #eee;
+    color:      #666;
+    font:       13px/1.4 helvetica, arial, sans-serif;
+    margin:     20px;
+    text-align: center;
+}
+
+h1 {
+    font-size:  32px;
+    margin:     0 0 20px;
+}
+
+#page {
+    background: #fff;
+    width:      700px;
+    margin:     0 auto;
+    padding:    20px;
+    text-align: left;
+}
