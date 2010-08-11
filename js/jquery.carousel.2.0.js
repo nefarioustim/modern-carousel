@@ -31,49 +31,43 @@
             
             return this.each(function(){
                 var carousel = $(this),
-                clip = carousel.find(".clip:first"),
-                list = clip.find(">ul:first"),
-                panels = list.find(">li"),
-                timer, playing = false;
+                    clip = carousel.find(".clip:first"),
+                    list = clip.find(">ul:first"),
+                    panels = list.find(">li"),
+                    timer,
+                    playing = false;
                 
                 clip.css("overflow", "hidden");
                 list.css("position", "relative");
                 list.cleanWhitespace();
                 
                 var clipWidth = clip.width(),
-                currentPane = 0,
-                numPanes = panels.length - o.options.visiblePanes,
-                delta = Math.floor(clipWidth / o.options.visiblePanes);
+                    currentPane = 0,
+                    numPanes = panels.length - o.options.visiblePanes,
+                    delta = Math.floor(clipWidth / o.options.visiblePanes);
                 
                 // Build basic carousel controls
                 
-                var play = $('<button>Play</button>').click(function(e) {
-                    carousel.trigger("play");
-                }),
-                pause = $('<button>Pause</button>').click(function(e) {
-                    carousel.trigger("pause");
-                }),
-                prev = $('<button>Prev</button>').click(function(e) {
-                    carousel.trigger("move", -1);
-                }),
-                next = $('<button>Next</button>').click(function(e) {
-                    carousel.trigger("move", 1);
+                var controls = {
+                        'prev': {},
+                        'play': {},
+                        'pause': {},
+                        'next': {}
+                    },
+                    ul = $('<ul class="carousel-nav"></ul>');
+
+                $.each(controls, function(name, value){
+                    controls[name]  = $('<li class="' + name + '"><button>' + name + '</button></li>')
+                                        .find('button')
+                                        .click(function(){
+                                            carousel.trigger(name);
+                                        })
+                                        .end();
+                    
+                    ul.append(controls[name]);
                 });
-                
-                $('<ul class="carousel-nav" />')
-                    .append(
-                        $('<li class="prev" />').append(prev)
-                    )
-                    .append(
-                        $('<li class="play" />').append(play)
-                    )
-                    .append(
-                        $('<li class="pause" />').append(pause)
-                    )
-                    .append(
-                        $('<li class="next" />').append(next)
-                    )
-                    .appendTo(carousel);
+
+                ul.appendTo(carousel);
                 
                 // Carousel pagination
                 
@@ -92,27 +86,27 @@
                 
                 // Handy functions
                 
-                var active = function(button, state) {
+                var active = function(control, state) {
                     if (!state) {
-                        button.closest("li").addClass("disabled");
-                        button.get(0).disabled = true;
+                        control.addClass("disabled");
+                        control.find('button').get(0).disabled = true;
                     } else {
-                        button.closest("li").removeClass("disabled");
-                        button.get(0).disabled = false;
+                        control.removeClass("disabled");
+                        control.find('button').get(0).disabled = false;
                     }
                 }
                 
                 var checkNavEnabled = function() {
                     if (!o.options.loop) {
                         if (currentPane == 0) {
-                            active(prev, false);
+                            active(controls["prev"], false);
                         } else {
-                            active(prev, true);
+                            active(controls["prev"], true);
                         }
                         if (currentPane == numPanes) {
-                            active(next, false);
+                            active(controls["next"], false);
                         } else {
-                            active(next, true);
+                            active(controls["next"], true);
                         }
                     }
                 };
@@ -146,10 +140,18 @@
                         carousel.trigger("pause");
                 });
                 
+                carousel.bind("prev", function(e) {
+                    carousel.trigger("move", -1);
+                });
+                
+                carousel.bind("next", function(e) {
+                    carousel.trigger("move", 1);
+                });
+                
                 carousel.bind("play", function(e) {
                     playing = true;
-                    active(play, false);
-                    active(pause, true);
+                    active(controls["play"], false);
+                    active(controls["pause"], true);
                     timer = window.setInterval(function() {
                         carousel.trigger("move", 1);
                     }, o.options.delay || 5000);
@@ -157,8 +159,8 @@
                 
                 carousel.bind("pause", function(e) {
                     playing = false;
-                    active(pause, false);
-                    active(play, true);
+                    active(controls["pause"], false);
+                    active(controls["play"], true);
                     clearInterval(timer);
                 });
                 
