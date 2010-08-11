@@ -150,10 +150,12 @@
                 });
                 
                 carousel.bind("prev", function(e) {
+                    carousel.trigger("pause");
                     carousel.trigger("move", -1);
                 });
                 
                 carousel.bind("next", function(e) {
+                    carousel.trigger("pause");
                     carousel.trigger("move", 1);
                 });
                 
