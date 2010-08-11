@@ -7,3 +7,10 @@ Why "modern"?
 -------------
 
 This carousel has been written with modern browsers in mind. As a result, it won't style correctly in IE6 without a bit of hackery due to the use of unsupported CSS2 selectors and properties.
+
+Demo
+----
+
+You can find a demo running here:
+
+http://nefariousdesigns.co.uk/projects/widgets/carousel/demo.html
