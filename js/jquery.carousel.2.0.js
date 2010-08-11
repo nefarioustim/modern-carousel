@@ -19,7 +19,7 @@
                 "visiblePanes": 1,
                 "panesToMove": 1,
                 "pagination": true,
-                "speed": "fast",
+                "speed": 100,
                 "loop": false,
                 "autoplay": false,
                 "delay": 2000
@@ -89,10 +89,14 @@
                 var active = function(control, state) {
                     if (!state) {
                         control.addClass("disabled");
-                        control.find('button').get(0).disabled = true;
+                        control.find('button')
+                            .get(0)
+                            .disabled = true;
                     } else {
                         control.removeClass("disabled");
-                        control.find('button').get(0).disabled = false;
+                        control.find('button')
+                            .get(0)
+                            .disabled = false;
                     }
                 }
                 
@@ -128,8 +132,12 @@
                         checkNavEnabled();
                     });
                     
-                    carousel.find(".carousel-pages .current").removeClass("current");
-                    carousel.find(".carousel-pages button").eq(Math.ceil(currentPane / o.options.panesToMove)).closest("li").addClass("current");
+                    carousel.find(".carousel-pages .current")
+                        .removeClass("current");
+                    carousel.find(".carousel-pages button")
+                        .eq(Math.ceil(currentPane / o.options.panesToMove))
+                        .closest("li")
+                        .addClass("current");
                 });
                 
                 carousel.bind("move", function(e, panes) {
