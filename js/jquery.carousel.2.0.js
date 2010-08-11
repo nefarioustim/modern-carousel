@@ -54,20 +54,22 @@
                         'pause': {},
                         'next': {}
                     },
-                    ul = $('<ul class="carousel-nav"></ul>');
+                    controlset = $('<ul class="carousel-nav"></ul>');
 
                 $.each(controls, function(name, value){
                     controls[name]  = $('<li class="' + name + '"><button>' + name + '</button></li>')
                                         .find('button')
-                                        .click(function(){
-                                            carousel.trigger(name);
-                                        })
+                                        .data('name', name)
                                         .end();
                     
-                    ul.append(controls[name]);
+                    controlset.append(controls[name]);
                 });
 
-                ul.appendTo(carousel);
+                controlset.appendTo(carousel);
+                controlset.delegate("button", "click", function(e){
+                    e.preventDefault();
+                    carousel.trigger($(this).data('name'));
+                });
                 
                 // Carousel pagination
                 
@@ -77,10 +79,9 @@
                         $('<li><button value="' + i + '">' + parseInt(i+1) + '</button></li>').appendTo(pagination);
                     }
                     pagination.appendTo(carousel);
-                    pagination.click(function(e){
+                    pagination.delegate("button", "click", function(e){
                         e.preventDefault();
-                        if (e.target.nodeName == 'BUTTON')
-                            carousel.trigger("jump", e.target.value * o.options.panesToMove);
+                        carousel.trigger("jump", e.target.value * o.options.panesToMove);
                     });
                 }
                 
