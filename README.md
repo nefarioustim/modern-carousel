@@ -13,4 +13,4 @@ Demo
 
 You can find a demo running here:
 
-http://nefariousdesigns.co.uk/projects/widgets/carousel/demo.html
+[Nefarious Designs - Widgets - Carousel](http://nefariousdesigns.co.uk/projects/widgets/carousel/demo.html)
