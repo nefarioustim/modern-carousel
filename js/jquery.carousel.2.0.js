@@ -73,6 +73,20 @@
                     )
                     .appendTo(carousel);
                 
+                if (o.options.pagination) {
+                    var pagination = $('<ol class="carousel-pages" />');
+                    for (var i = 0; i < panels.length / o.options.panesToMove; i++) {
+                        $('<li><button value="' + i + '">' + parseInt(i+1) + '</button></li>').appendTo(pagination);
+                    }
+                    pagination.appendTo(carousel);
+                    pagination.click(function(e){
+                        e.preventDefault();
+                        if (e.target.nodeName == 'BUTTON') {
+                            carousel.trigger("jump", e.target.value * o.options.panesToMove);
+                        }
+                    });
+                }
+                
                 var active = function(button, state) {
                     if (!state) {
                         button.closest("li").addClass("disabled");
@@ -99,7 +113,7 @@
                 };
                 checkNavEnabled();
                 
-                var gotoPane = function(pane) {
+                carousel.bind("jump", function(e, pane) {
                     if (pane < 0) pane = o.options.loop ? numPanes : 0;
                     if (pane > numPanes) pane = o.options.loop ? 0 : numPanes;
                     
@@ -110,12 +124,15 @@
                     }, o.options.speed, function(){
                         checkNavEnabled();
                     });
-                };
+                    
+                    carousel.find(".carousel-pages .current").removeClass("current");
+                    carousel.find(".carousel-pages button").eq(Math.ceil(currentPane / o.options.panesToMove)).closest("li").addClass("current");
+                });
                 
                 carousel.bind("move", function(e, panes) {
                     panes = panes || 1;
                     currentPane += panes * o.options.panesToMove;
-                    gotoPane(currentPane);
+                    carousel.trigger("jump", currentPane);
                     if (playing && !o.options.loop && currentPane == numPanes) carousel.trigger("pause");
                 });
                 
