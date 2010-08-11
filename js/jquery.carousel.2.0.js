@@ -165,7 +165,7 @@
                     active(controls["pause"], true);
                     timer = window.setInterval(function() {
                         carousel.trigger("move", 1);
-                    }, o.options.delay || 5000);
+                    }, o.options.delay);
                 });
                 
                 carousel.bind("pause", function(e) {
