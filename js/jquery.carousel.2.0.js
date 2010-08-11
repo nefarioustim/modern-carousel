@@ -45,6 +45,8 @@
                 numPanes = panels.length - o.options.visiblePanes,
                 delta = Math.floor(clipWidth / o.options.visiblePanes);
                 
+                // Build basic carousel controls
+                
                 var play = $('<button>Play</button>').click(function(e) {
                     carousel.trigger("play");
                 }),
@@ -73,6 +75,8 @@
                     )
                     .appendTo(carousel);
                 
+                // Carousel pagination
+                
                 if (o.options.pagination) {
                     var pagination = $('<ol class="carousel-pages" />');
                     for (var i = 0; i < panels.length / o.options.panesToMove; i++) {
@@ -81,11 +85,12 @@
                     pagination.appendTo(carousel);
                     pagination.click(function(e){
                         e.preventDefault();
-                        if (e.target.nodeName == 'BUTTON') {
+                        if (e.target.nodeName == 'BUTTON')
                             carousel.trigger("jump", e.target.value * o.options.panesToMove);
-                        }
                     });
                 }
+                
+                // Handy functions
                 
                 var active = function(button, state) {
                     if (!state) {
@@ -113,9 +118,13 @@
                 };
                 checkNavEnabled();
                 
+                // Eventmageddon!
+                
                 carousel.bind("jump", function(e, pane) {
-                    if (pane < 0) pane = o.options.loop ? numPanes : 0;
-                    if (pane > numPanes) pane = o.options.loop ? 0 : numPanes;
+                    if (pane < 0)
+                        pane = o.options.loop ? numPanes : 0;
+                    if (pane > numPanes)
+                        pane = o.options.loop ? 0 : numPanes;
                     
                     currentPane = pane;
                     
@@ -133,7 +142,8 @@
                     panes = panes || 1;
                     currentPane += panes * o.options.panesToMove;
                     carousel.trigger("jump", currentPane);
-                    if (playing && !o.options.loop && currentPane == numPanes) carousel.trigger("pause");
+                    if (playing && !o.options.loop && currentPane == numPanes)
+                        carousel.trigger("pause");
                 });
                 
                 carousel.bind("play", function(e) {
@@ -152,7 +162,10 @@
                     clearInterval(timer);
                 });
                 
-                if (o.options.autoplay) carousel.trigger("play");
+                // Initialisation complete; fire her up.
+                
+                if (o.options.autoplay)
+                    carousel.trigger("play");
             });
         }
     });
