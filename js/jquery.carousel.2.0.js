@@ -21,7 +21,8 @@
                 "pagination": true,
                 "speed": "fast",
                 "loop": false,
-                "autoplay": false
+                "autoplay": false,
+                "delay": 2000
             };
             
             this.options = $.extend(defaults, config);
@@ -32,7 +33,8 @@
                 var carousel = $(this),
                 clip = carousel.find(".clip:first"),
                 list = clip.find(">ul:first"),
-                panels = list.find(">li");
+                panels = list.find(">li"),
+                timer, playing = false;
                 
                 clip.css("overflow", "hidden");
                 list.css("position", "relative");
@@ -43,48 +45,59 @@
                 numPanes = panels.length - o.options.visiblePanes,
                 delta = Math.floor(clipWidth / o.options.visiblePanes);
                 
-                if (o.options.autoplay) {
-                    var timer = window.setInterval(function() {
-                        moveBy(null, 1);
-                    }, o.options.autoplay || 5000);
-                }
+                var play = $('<button>Play</button>').click(function(e) {
+                    carousel.trigger("play");
+                }),
+                pause = $('<button>Pause</button>').click(function(e) {
+                    carousel.trigger("pause");
+                }),
+                prev = $('<button>Prev</button>').click(function(e) {
+                    carousel.trigger("move", -1);
+                }),
+                next = $('<button>Next</button>').click(function(e) {
+                    carousel.trigger("move", 1);
+                });
                 
-                $('<ul class="carousel-nav"><li class="prev"><button>Prev</button></li><li class="next"><button>Next</button></li></ul>').appendTo(carousel);
-                var prev = carousel.find(".carousel-nav .prev"),
-                next = carousel.find(".carousel-nav .next");
-                prev.find("button").click(function(e){
-                    moveBy(e, -1);
-                });
-                next.find("button").click(function(e){
-                    moveBy(e, 1);
-                });
+                $('<ul class="carousel-nav" />')
+                    .append(
+                        $('<li class="prev" />').append(prev)
+                    )
+                    .append(
+                        $('<li class="play" />').append(play)
+                    )
+                    .append(
+                        $('<li class="pause" />').append(pause)
+                    )
+                    .append(
+                        $('<li class="next" />').append(next)
+                    )
+                    .appendTo(carousel);
+                
+                var active = function(button, state) {
+                    if (!state) {
+                        button.closest("li").addClass("disabled");
+                        button.get(0).disabled = true;
+                    } else {
+                        button.closest("li").removeClass("disabled");
+                        button.get(0).disabled = false;
+                    }
+                }
                 
                 var checkNavEnabled = function() {
                     if (!o.options.loop) {
                         if (currentPane == 0) {
-                            prev.addClass("disabled");
-                            prev.find("button").get(0).disabled = true;
+                            active(prev, false);
                         } else {
-                            prev.removeClass("disabled");
-                            prev.find("button").get(0).disabled = false;
+                            active(prev, true);
                         }
                         if (currentPane == numPanes) {
-                            next.addClass("disabled");
-                            next.find("button").get(0).disabled = true;
+                            active(next, false);
                         } else {
-                            next.removeClass("disabled");
-                            next.find("button").get(0).disabled = false;
+                            active(next, true);
                         }
                     }
                 };
                 checkNavEnabled();
-                
-                var moveBy = function(e, panes) {
-                    if (e) e.preventDefault();
-                    currentPane += panes * o.options.panesToMove;
-                    gotoPane(currentPane);
-                    if (o.options.autoplay && !o.options.loop && currentPane == numPanes) clearInterval(timer);
-                };
                 
                 var gotoPane = function(pane) {
                     if (pane < 0) pane = o.options.loop ? numPanes : 0;
@@ -98,6 +111,31 @@
                         checkNavEnabled();
                     });
                 };
+                
+                carousel.bind("move", function(e, panes) {
+                    panes = panes || 1;
+                    currentPane += panes * o.options.panesToMove;
+                    gotoPane(currentPane);
+                    if (playing && !o.options.loop && currentPane == numPanes) carousel.trigger("pause");
+                });
+                
+                carousel.bind("play", function(e) {
+                    playing = true;
+                    active(play, false);
+                    active(pause, true);
+                    timer = window.setInterval(function() {
+                        carousel.trigger("move", 1);
+                    }, o.options.delay || 5000);
+                });
+                
+                carousel.bind("pause", function(e) {
+                    playing = false;
+                    active(pause, false);
+                    active(play, true);
+                    clearInterval(timer);
+                });
+                
+                if (o.options.autoplay) carousel.trigger("play");
             });
         }
     });
