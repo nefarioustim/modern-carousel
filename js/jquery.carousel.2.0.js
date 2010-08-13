@@ -19,7 +19,7 @@
                 "visiblePanes": 1,
                 "panesToMove": 1,
                 "pagination": true,
-                "speed": 100,
+                "speed": 200,
                 "loop": false,
                 "autoplay": false,
                 "delay": 2000
@@ -54,7 +54,8 @@
                         'pause': {},
                         'next': {}
                     },
-                    controlset = $('<ul class="carousel-nav"></ul>');
+                    controlset = $('<div class="controls" />');
+                    basic = $('<ul class="basic" />');
 
                 $.each(controls, function(name, value){
                     controls[name]  = $('<li class="' + name + '"><button>' + name + '</button></li>')
@@ -62,11 +63,11 @@
                                         .data('name', name)
                                         .end();
                     
-                    controlset.append(controls[name]);
+                    basic.append(controls[name]);
                 });
 
-                controlset.appendTo(carousel);
-                controlset.delegate("button", "click", function(e){
+                basic.appendTo(controlset.appendTo(carousel));
+                basic.delegate("button", "click", function(e){
                     e.preventDefault();
                     carousel.trigger($(this).data('name'));
                 });
@@ -74,16 +75,27 @@
                 // Carousel pagination
                 
                 if (o.options.pagination) {
-                    var pagination = $('<ol class="carousel-pages" />');
+                    var pagination = $('<ol class="pages" />');
                     for (var i = 0; i < panels.length / o.options.panesToMove; i++) {
                         $('<li><button value="' + i + '">' + parseInt(i+1) + '</button></li>').appendTo(pagination);
                     }
-                    pagination.appendTo(carousel);
+                    pagination.appendTo(carousel.find(".controls"));
                     pagination.delegate("button", "click", function(e){
                         e.preventDefault();
                         carousel.trigger("jump", e.target.value * o.options.panesToMove);
                     });
                 }
+                
+                controlset.hide();
+                
+                // Carousel hover
+                carousel.hover(function(e){
+                    controlset.fadeIn(400);
+                }, function(e){
+                    controlset.fadeOut(400);
+                });
+                
+                //carousel.pagination.
                 
                 // Handy functions
                 
@@ -103,16 +115,16 @@
                 
                 var checkNavEnabled = function() {
                     if (!o.options.loop) {
-                        if (currentPane == 0) {
-                            active(controls["prev"], false);
-                        } else {
-                            active(controls["prev"], true);
-                        }
-                        if (currentPane == numPanes) {
-                            active(controls["next"], false);
-                        } else {
-                            active(controls["next"], true);
-                        }
+                        active(controls["prev"], !(currentPane == 0));
+                        active(controls["next"], !(currentPane == numPanes));
+                    }
+                    if (o.options.pagination) {
+                        carousel.find(".pages .current")
+                            .removeClass("current");
+                        carousel.find(".pages button")
+                            .eq(Math.ceil(currentPane / o.options.panesToMove))
+                            .closest("li")
+                            .addClass("current");
                     }
                 };
                 checkNavEnabled();
@@ -129,16 +141,13 @@
                     
                     list.animate({
                         left: (-delta * currentPane) + "px"
-                    }, o.options.speed, function(){
-                        checkNavEnabled();
+                    }, {
+                        duration: o.options.speed,
+                        queue: false,
+                        complete: function(){
+                            checkNavEnabled();
+                        }
                     });
-                    
-                    carousel.find(".carousel-pages .current")
-                        .removeClass("current");
-                    carousel.find(".carousel-pages button")
-                        .eq(Math.ceil(currentPane / o.options.panesToMove))
-                        .closest("li")
-                        .addClass("current");
                 });
                 
                 carousel.bind("move", function(e, panes) {
@@ -177,8 +186,11 @@
                 
                 // Initialisation complete; fire her up.
                 
-                if (o.options.autoplay)
+                if (o.options.autoplay) {
                     carousel.trigger("play");
+                } else {
+                    carousel.trigger("pause");
+                }
             });
         }
     });

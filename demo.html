@@ -6,32 +6,128 @@
         <link rel="stylesheet" href="css/reset.css" type="text/css" charset="utf-8">
         <link rel="stylesheet" href="css/core.css" type="text/css" charset="utf-8">
         <style type="text/css">
-            .carousel img {
-                display:        block;
-            }
-            .carousel .clip {
-                overflow:       auto;
+            .carousel {
+                padding:        20px;
+                position:       relative;
                 width:          220px;
             }
-            .carousel .clip>ul.horizontal {
-                white-space:    nowrap;
-            }
-                .carousel .clip>ul.horizontal>li {
-                    display:    -moz-inline-box;
-                    display:    inline-block;
+                .carousel ul,
+                .carousel li {
+                    list-style-type:    none;
+                    margin:             0;
+                    padding:            0;
                 }
-            .carousel .carousel-nav>li,
-            .carousel .carousel-pages>li {
-                display:    -moz-inline-box;
-                display:    inline-block;
-            }
+                .carousel img {
+                    display:        block;
+                }
+                .carousel .clip {
+                    height:         220px;
+                    overflow:       auto;
+                    width:          220px;
+                }
+                .carousel .clip>ul.horizontal {
+                    white-space:    nowrap;
+                }
+                    .carousel .clip>ul.horizontal>li {
+                        display:    -moz-inline-box;
+                        display:    inline-block;
+                    }
+                .carousel .controls {
+                    height:         220px;
+                    position:       absolute;
+                    top:            20px;
+                    width:          220px;
+                }
+                .carousel .controls .basic,
+                .carousel .controls .pages {
+                    background:     #333;
+                    bottom:         0;
+                    position:       absolute;
+                    text-align:     center;
+                    width:          220px;
+                    filter:         alpha(opacity=70);
+                    -moz-opacity:   0.7;
+                    -khtml-opacity: 0.7;
+                    opacity:        0.7;
+                }
+                .carousel .controls .basic {
+                    bottom:         auto;
+                    top:            0;
+                }
+                    .carousel .controls li {
+                        display:    -moz-inline-box;
+                        display:    inline-block;
+                        padding:    4px 8px;
+                    }
+                    .carousel .controls button {
+                        background:     url(img/controls.png) no-repeat 0 0;
+                        border:         0;
+                        cursor:         pointer;
+                        height:         16px;
+                        position:       relative;
+                        text-indent:    -999em;
+                        width:          16px;
+                    }
+                        .carousel .controls .disabled button {
+                            filter:         alpha(opacity=30);
+                            -moz-opacity:   0.3;
+                            -khtml-opacity: 0.3;
+                            opacity:        0.3;
+                        }
+                        .carousel .controls .pause button {
+                            background-position:    -16px 0;
+                        }
+                        .carousel .controls .prev {
+                            position:   absolute;
+                            top:        100px;
+                        }
+                            .carousel .controls .prev button {
+                                background-position:    -32px 0;
+                            }
+                        .carousel .controls .next {
+                            position:   absolute;
+                            right:      0;
+                            top:        100px;
+                        }
+                            .carousel .controls .next button {
+                                background-position:    -48px 0;
+                            }
+                        .carousel .controls .pages button {
+                            background-position:    -48px -16px;
+                        }
+                            .carousel .controls .pages .current button {
+                                background-position:    0 -16px;
+                            }
         </style>
     </head>
     <body>
         <div id="page">
             <h1>Carousel widget: Basic</h1>
             
-            <div class="carousel">
+            <h2>Example 1</h2>
+            <ul>
+                <li>Pagination</li>
+                <li>No looping</li>
+                <li>No autoplay</li>
+            </ul>
+            <div class="carousel" id="example1">
+                <div class="clip">
+                    <ul class="horizontal">
+                        <li><img src="img/family.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/luxury.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/romantic.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/spa.png" alt="Family" width="220" height="220"></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h2>Example 2</h2>
+            <ul>
+                <li>Pagination</li>
+                <li>Looping</li>
+                <li>Autoplay</li>
+            </ul>
+            <div class="carousel" id="example2">
                 <div class="clip">
                     <ul class="horizontal">
                         <li><img src="img/family.png" alt="Family" width="220" height="220"></li>
@@ -42,10 +138,15 @@
                 </div>
             </div>
         </div>
+        
         <script type="text/javascript" src="js/jquery-1.4.2.min.js" charset="utf-8"></script>
         <script type="text/javascript" src="js/jquery.carousel.2.0.js" charset="utf-8"></script>
         <script type="text/javascript">
-            $(".carousel").carousel();
+            $("#example1").carousel();
+            $("#example2").carousel({
+                "loop": true,
+                "autoplay": true
+            });
         </script>
     </body>
 </html>
