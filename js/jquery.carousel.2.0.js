@@ -22,8 +22,8 @@
                 "speed": 200,
                 "loop": false,
                 "autoplay": false,
-                "hovercontrols": true,
-                "hoverpause": true,
+                "hovercontrols": false,
+                "hoverpause": false,
                 "delay": 2000
             };
             

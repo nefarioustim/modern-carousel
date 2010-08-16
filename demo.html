@@ -63,10 +63,14 @@
         <script type="text/javascript" src="js/jquery-1.4.2.min.js" charset="utf-8"></script>
         <script type="text/javascript" src="js/jquery.carousel.2.0.js" charset="utf-8"></script>
         <script type="text/javascript">
-            $("#example1").carousel();
+            $("#example1").carousel({
+                "hovercontrols": true
+            });
             $("#example2").carousel({
                 "loop": true,
-                "autoplay": true
+                "autoplay": true,
+                "hovercontrols": true,
+                "hoverpause": true
             });
         </script>
     </body>
