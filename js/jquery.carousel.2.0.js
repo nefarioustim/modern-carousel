@@ -22,6 +22,7 @@
                 "speed": 200,
                 "loop": false,
                 "autoplay": false,
+                "hoverpause": true,
                 "delay": 2000
             };
             
@@ -69,7 +70,7 @@
                 basic.appendTo(controlset.appendTo(carousel));
                 basic.delegate("button", "click", function(e){
                     e.preventDefault();
-                    carousel.trigger($(this).data('name'));
+                    carousel.trigger('carousel-' + $(this).data('name'));
                 });
                 
                 // Carousel pagination
@@ -82,7 +83,7 @@
                     pagination.appendTo(carousel.find(".controls"));
                     pagination.delegate("button", "click", function(e){
                         e.preventDefault();
-                        carousel.trigger("jump", e.target.value * o.options.panesToMove);
+                        carousel.trigger("carousel-jump", e.target.value * o.options.panesToMove);
                     });
                 }
                 
@@ -91,8 +92,14 @@
                 // Carousel hover
                 carousel.hover(function(e){
                     controlset.fadeIn(400);
+                    if (o.options.hoverpause) {
+                        carousel.trigger("carousel-pause");
+                        playing = true;
+                    }
                 }, function(e){
                     controlset.fadeOut(400);
+                    if (o.options.hoverpause && playing)
+                        carousel.trigger("carousel-play");
                 });
                 
                 //carousel.pagination.
@@ -131,7 +138,7 @@
                 
                 // Eventmageddon!
                 
-                carousel.bind("jump", function(e, pane) {
+                carousel.bind("carousel-jump", function(e, pane) {
                     if (pane < 0)
                         pane = o.options.loop ? numPanes : 0;
                     if (pane > numPanes)
@@ -150,34 +157,34 @@
                     });
                 });
                 
-                carousel.bind("move", function(e, panes) {
+                carousel.bind("carousel-move", function(e, panes) {
                     panes = panes || 1;
                     currentPane += panes * o.options.panesToMove;
-                    carousel.trigger("jump", currentPane);
+                    carousel.trigger("carousel-jump", currentPane);
                     if (playing && !o.options.loop && currentPane == numPanes)
-                        carousel.trigger("pause");
+                        carousel.trigger("carousel-pause");
                 });
                 
-                carousel.bind("prev", function(e) {
-                    carousel.trigger("pause");
-                    carousel.trigger("move", -1);
+                carousel.bind("carousel-prev", function(e) {
+                    carousel.trigger("carousel-pause");
+                    carousel.trigger("carousel-move", -1);
                 });
                 
-                carousel.bind("next", function(e) {
-                    carousel.trigger("pause");
-                    carousel.trigger("move", 1);
+                carousel.bind("carousel-next", function(e) {
+                    carousel.trigger("carousel-pause");
+                    carousel.trigger("carousel-move", 1);
                 });
                 
-                carousel.bind("play", function(e) {
+                carousel.bind("carousel-play", function(e) {
                     playing = true;
                     active(controls["play"], false);
                     active(controls["pause"], true);
                     timer = window.setInterval(function() {
-                        carousel.trigger("move", 1);
+                        carousel.trigger("carousel-move", 1);
                     }, o.options.delay);
                 });
                 
-                carousel.bind("pause", function(e) {
+                carousel.bind("carousel-pause", function(e) {
                     playing = false;
                     active(controls["pause"], false);
                     active(controls["play"], true);
@@ -187,9 +194,9 @@
                 // Initialisation complete; fire her up.
                 
                 if (o.options.autoplay) {
-                    carousel.trigger("play");
+                    carousel.trigger("carousel-play");
                 } else {
-                    carousel.trigger("pause");
+                    carousel.trigger("carousel-pause");
                 }
             });
         }
