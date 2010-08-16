@@ -29,38 +29,42 @@
         if (config) $.extend(defaults, config);
         
         this.each(function(){
-            var carousel = $(this),
+            var timer,
+                carousel = $(this),
                 clip = carousel.find(".clip:first"),
                 list = clip.find(">ul:first"),
-                panels = list.find(">li"),
-                timer;
+                panels = list.find(">li");
             
-            carousel.data('playing', false);
+            defaults.aspectVert = /(vertical)/i.test(list.get(0).className);
+            
+            carousel.data("isCarousel", true);
+            carousel.data("playing", false);
             
             clip.css("overflow", "hidden");
             list.css("position", "relative");
             list.cleanWhitespace();
             
             var clipWidth = clip.width(),
+                clipHeight = clip.get(0).offsetHeight,
                 currentPane = 0,
                 numPanes = panels.length - defaults.visiblePanes,
-                delta = Math.floor(clipWidth / defaults.visiblePanes);
+                delta = defaults.aspectVert ? Math.floor(clipHeight / defaults.visiblePanes) : Math.floor(clipWidth / defaults.visiblePanes);
             
             // Build basic carousel controls
             
             var controls = {
-                    'prev': {},
-                    'play': {},
-                    'pause': {},
-                    'next': {}
+                    "prev": {},
+                    "play": {},
+                    "pause": {},
+                    "next": {}
                 },
                 controlset = $('<div class="controls" />');
                 basic = $('<ul class="basic" />');
 
             $.each(controls, function(name, value){
                 controls[name]  = $('<li class="' + name + '"><button>' + name + '</button></li>')
-                                    .find('button')
-                                    .data('name', name)
+                                    .find("button")
+                                    .data("name", name)
                                     .end();
                 
                 basic.append(controls[name]);
@@ -69,7 +73,7 @@
             basic.appendTo(controlset.appendTo(carousel));
             basic.delegate("button", "click", function(e){
                 e.preventDefault();
-                carousel.trigger('carousel-' + $(this).data('name'));
+                carousel.trigger("carousel-" + $(this).data("name"));
             });
             
             // Carousel pagination
@@ -94,16 +98,16 @@
                 if (defaults.hovercontrols)
                     controlset.fadeIn(400);
                 if (defaults.hoverpause) {
-                    if (carousel.data('playing'))
+                    if (carousel.data("playing"))
                         var play = true;
                     carousel.trigger("carousel-pause");
                     if (play)
-                        carousel.data('playing', true);
+                        carousel.data("playing", true);
                 }
             }, function(e){
                 if (defaults.hovercontrols)
                     controlset.fadeOut(400);
-                if (defaults.hoverpause && carousel.data('playing'))
+                if (defaults.hoverpause && carousel.data("playing"))
                     carousel.trigger("carousel-play");
             });
             
@@ -112,12 +116,12 @@
             var active = function(control, state) {
                 if (!state) {
                     control.addClass("disabled");
-                    control.find('button')
+                    control.find("button")
                         .get(0)
                         .disabled = true;
                 } else {
                     control.removeClass("disabled");
-                    control.find('button')
+                    control.find("button")
                         .get(0)
                         .disabled = false;
                 }
@@ -149,22 +153,30 @@
                 
                 currentPane = pane;
                 
-                list.animate({
-                    left: (-delta * currentPane) + "px"
-                }, {
+                var params = {
                     duration: defaults.speed,
                     queue: false,
                     complete: function(){
                         checkNavEnabled();
                     }
-                });
+                };
+                
+                if (defaults.aspectVert) {
+                    list.animate({
+                        top: (-delta * currentPane) + "px"
+                    }, params);
+                } else {
+                    list.animate({
+                        left: (-delta * currentPane) + "px"
+                    }, params);
+                }
             });
             
             carousel.bind("carousel-move", function(e, panes) {
                 panes = panes || 1;
                 currentPane += panes * defaults.panesToMove;
                 carousel.trigger("carousel-jump", currentPane);
-                if (carousel.data('playing') && !defaults.loop && currentPane == numPanes)
+                if (carousel.data("playing") && !defaults.loop && currentPane == numPanes)
                     carousel.trigger("carousel-pause");
             });
             
@@ -179,7 +191,7 @@
             });
             
             carousel.bind("carousel-play", function(e) {
-                carousel.data('playing', true);
+                carousel.data("playing", true);
                 active(controls["play"], false);
                 active(controls["pause"], true);
                 timer = window.setInterval(function() {
@@ -188,7 +200,7 @@
             });
             
             carousel.bind("carousel-pause", function(e) {
-                carousel.data('playing', false);
+                carousel.data("playing", false);
                 active(controls["pause"], false);
                 active(controls["play"], true);
                 clearInterval(timer);

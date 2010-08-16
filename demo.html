@@ -58,6 +58,21 @@
                     </ul>
                 </div>
             </div>
+            
+            <h2>Example 3</h2>
+            <ul>
+                <li>Vertical</li>
+            </ul>
+            <div class="carousel" id="example3">
+                <div class="clip">
+                    <ul class="vertical">
+                        <li><img src="img/family.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/luxury.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/romantic.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/spa.png" alt="Family" width="220" height="220"></li>
+                    </ul>
+                </div>
+            </div>
         </div>
         
         <script type="text/javascript" src="js/jquery-1.4.2.min.js" charset="utf-8"></script>
@@ -71,6 +86,11 @@
                 "autoplay": true,
                 "hovercontrols": true,
                 "hoverpause": true
+            });
+            $("#example3").carousel({
+                "loop": true,
+                "autoplay": true,
+                "hovercontrols": true
             });
         </script>
     </body>
