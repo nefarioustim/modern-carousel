@@ -110,8 +110,6 @@
                         carousel.trigger("carousel-play");
                 });
                 
-                //carousel.pagination.
-                
                 // Handy functions
                 
                 var active = function(control, state) {
