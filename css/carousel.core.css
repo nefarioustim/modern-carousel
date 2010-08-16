@@ -1,0 +1,19 @@
+.carousel {
+    position:   relative;
+}
+    .carousel ul,
+    .carousel li {
+        list-style-type:    none;
+        margin:             0;
+        padding:            0;
+    }
+    .carousel .clip {
+        overflow:           auto;
+    }
+        .carousel .clip>ul.horizontal {
+            white-space:    nowrap;
+        }
+            .carousel .clip>ul.horizontal>li {
+                display:    -moz-inline-box;
+                display:    inline-block;
+            }

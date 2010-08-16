@@ -5,99 +5,20 @@
         <title>Basic — Carousel — Widgets</title>
         <link rel="stylesheet" href="css/reset.css" type="text/css" charset="utf-8">
         <link rel="stylesheet" href="css/core.css" type="text/css" charset="utf-8">
+        <link rel="stylesheet" href="css/carousel.core.css" type="text/css" charset="utf-8">
+        <link rel="stylesheet" href="css/carousel.skin.css" type="text/css" charset="utf-8">
         <style type="text/css">
             .carousel {
                 padding:        20px;
-                position:       relative;
                 width:          220px;
             }
-                .carousel ul,
-                .carousel li {
-                    list-style-type:    none;
-                    margin:             0;
-                    padding:            0;
-                }
                 .carousel img {
                     display:        block;
                 }
                 .carousel .clip {
                     height:         220px;
-                    overflow:       auto;
                     width:          220px;
                 }
-                .carousel .clip>ul.horizontal {
-                    white-space:    nowrap;
-                }
-                    .carousel .clip>ul.horizontal>li {
-                        display:    -moz-inline-box;
-                        display:    inline-block;
-                    }
-                .carousel .controls {
-                    height:         220px;
-                    position:       absolute;
-                    top:            20px;
-                    width:          220px;
-                }
-                .carousel .controls .basic,
-                .carousel .controls .pages {
-                    background:     #333;
-                    bottom:         0;
-                    position:       absolute;
-                    text-align:     center;
-                    width:          220px;
-                    filter:         alpha(opacity=70);
-                    -moz-opacity:   0.7;
-                    -khtml-opacity: 0.7;
-                    opacity:        0.7;
-                }
-                .carousel .controls .basic {
-                    bottom:         auto;
-                    top:            0;
-                }
-                    .carousel .controls li {
-                        display:    -moz-inline-box;
-                        display:    inline-block;
-                        padding:    4px 8px;
-                    }
-                    .carousel .controls button {
-                        background:     url(img/controls.png) no-repeat 0 0;
-                        border:         0;
-                        cursor:         pointer;
-                        height:         16px;
-                        position:       relative;
-                        text-indent:    -999em;
-                        width:          16px;
-                    }
-                        .carousel .controls .disabled button {
-                            filter:         alpha(opacity=30);
-                            -moz-opacity:   0.3;
-                            -khtml-opacity: 0.3;
-                            opacity:        0.3;
-                        }
-                        .carousel .controls .pause button {
-                            background-position:    -16px 0;
-                        }
-                        .carousel .controls .prev {
-                            position:   absolute;
-                            top:        100px;
-                        }
-                            .carousel .controls .prev button {
-                                background-position:    -32px 0;
-                            }
-                        .carousel .controls .next {
-                            position:   absolute;
-                            right:      0;
-                            top:        100px;
-                        }
-                            .carousel .controls .next button {
-                                background-position:    -48px 0;
-                            }
-                        .carousel .controls .pages button {
-                            background-position:    -48px -16px;
-                        }
-                            .carousel .controls .pages .current button {
-                                background-position:    0 -16px;
-                            }
         </style>
     </head>
     <body>

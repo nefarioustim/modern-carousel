@@ -22,6 +22,7 @@
                 "speed": 200,
                 "loop": false,
                 "autoplay": false,
+                "hovercontrols": true,
                 "hoverpause": true,
                 "delay": 2000
             };
@@ -35,8 +36,9 @@
                     clip = carousel.find(".clip:first"),
                     list = clip.find(">ul:first"),
                     panels = list.find(">li"),
-                    timer,
-                    playing = false;
+                    timer;
+                
+                carousel.data('playing', false);
                 
                 clip.css("overflow", "hidden");
                 list.css("position", "relative");
@@ -87,18 +89,24 @@
                     });
                 }
                 
-                controlset.hide();
+                if (o.options.hovercontrols)
+                    controlset.hide();
                 
                 // Carousel hover
                 carousel.hover(function(e){
-                    controlset.fadeIn(400);
+                    if (o.options.hovercontrols)
+                        controlset.fadeIn(400);
                     if (o.options.hoverpause) {
+                        if (carousel.data('playing'))
+                            var play = true;
                         carousel.trigger("carousel-pause");
-                        playing = true;
+                        if (play)
+                            carousel.data('playing', true);
                     }
                 }, function(e){
-                    controlset.fadeOut(400);
-                    if (o.options.hoverpause && playing)
+                    if (o.options.hovercontrols)
+                        controlset.fadeOut(400);
+                    if (o.options.hoverpause && carousel.data('playing'))
                         carousel.trigger("carousel-play");
                 });
                 
@@ -161,7 +169,7 @@
                     panes = panes || 1;
                     currentPane += panes * o.options.panesToMove;
                     carousel.trigger("carousel-jump", currentPane);
-                    if (playing && !o.options.loop && currentPane == numPanes)
+                    if (carousel.data('playing') && !o.options.loop && currentPane == numPanes)
                         carousel.trigger("carousel-pause");
                 });
                 
@@ -176,7 +184,7 @@
                 });
                 
                 carousel.bind("carousel-play", function(e) {
-                    playing = true;
+                    carousel.data('playing', true);
                     active(controls["play"], false);
                     active(controls["pause"], true);
                     timer = window.setInterval(function() {
@@ -185,7 +193,7 @@
                 });
                 
                 carousel.bind("carousel-pause", function(e) {
-                    playing = false;
+                    carousel.data('playing', false);
                     active(controls["pause"], false);
                     active(controls["play"], true);
                     clearInterval(timer);
