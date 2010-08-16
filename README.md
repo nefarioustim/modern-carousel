@@ -1,4 +1,4 @@
-Modern Carousel
+jQuery Carousel
 ===============
 
 This is carousel script for jQuery that is configurable in a multitude of ways.
