@@ -81,7 +81,7 @@
             if (defaults.pagination) {
                 var pagination = $('<ol class="pages" />');
                 for (var i = 0; i < panels.length / defaults.panesToMove; i++) {
-                    $('<li><button value="' + i + '">' + parseInt(i+1) + '</button></li>').appendTo(pagination);
+                    $('<li><button value="' + i + '">' + parseInt(i+1, 10) + '</button></li>').appendTo(pagination);
                 }
                 pagination.appendTo(carousel.find(".controls"));
                 pagination.delegate("button", "click", function(e){
