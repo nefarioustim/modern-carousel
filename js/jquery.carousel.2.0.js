@@ -23,7 +23,8 @@
             "autoplay": false,
             "hovercontrols": false,
             "hoverpause": false,
-            "delay": 2000
+            "delay": 2000,
+            "transition": false
         };
         
         if (config) $.extend(defaults, config);
@@ -37,7 +38,6 @@
             
             defaults.aspectVert = /(vertical)/i.test(list.get(0).className);
             
-            carousel.data("isCarousel", true);
             carousel.data("playing", false);
             
             clip.css("overflow", "hidden");
@@ -86,7 +86,7 @@
                 pagination.appendTo(carousel.find(".controls"));
                 pagination.delegate("button", "click", function(e){
                     e.preventDefault();
-                    carousel.trigger("carousel-jump", e.target.value * defaults.panesToMove);
+                    carousel.trigger("carousel-jump", [e.target.value * defaults.panesToMove, currentPane]);
                 });
             }
             
@@ -96,7 +96,9 @@
             // Carousel hover
             carousel.hover(function(e){
                 if (defaults.hovercontrols)
-                    controlset.fadeIn(400);
+                    controlset
+                        .stop()
+                        .fadeIn({"duration": 200, "queue": false});
                 if (defaults.hoverpause) {
                     if (carousel.data("playing"))
                         var play = true;
@@ -106,7 +108,8 @@
                 }
             }, function(e){
                 if (defaults.hovercontrols)
-                    controlset.fadeOut(400);
+                    controlset
+                        .fadeOut({"duration": 200, "queue": false});
                 if (defaults.hoverpause && carousel.data("playing"))
                     carousel.trigger("carousel-play");
             });
@@ -127,7 +130,9 @@
                 }
             }
             
-            var checkNavEnabled = function() {
+            // Eventmageddon!
+            
+            carousel.bind("carousel-nav-state", function() {
                 if (!defaults.loop) {
                     active(controls["prev"], !(currentPane == 0));
                     active(controls["next"], !(currentPane == numPanes));
@@ -140,12 +145,9 @@
                         .closest("li")
                         .addClass("current");
                 }
-            };
-            checkNavEnabled();
+            });
             
-            // Eventmageddon!
-            
-            carousel.bind("carousel-jump", function(e, pane) {
+            carousel.bind("carousel-jump", function(e, pane, lastPane) {
                 if (pane < 0)
                     pane = defaults.loop ? numPanes : 0;
                 if (pane > numPanes)
@@ -153,29 +155,34 @@
                 
                 currentPane = pane;
                 
-                var params = {
+                var animParams = {
                     duration: defaults.speed,
                     queue: false,
                     complete: function(){
-                        checkNavEnabled();
+                        carousel.trigger("carousel-nav-state");
                     }
                 };
                 
-                if (defaults.aspectVert) {
-                    list.animate({
-                        top: (-delta * currentPane) + "px"
-                    }, params);
+                if (defaults.transition) {
+                    carousel.carousel[defaults.transition](carousel, lastPane, currentPane, animParams);
                 } else {
-                    list.animate({
-                        left: (-delta * currentPane) + "px"
-                    }, params);
+                    if (defaults.aspectVert) {
+                        list.animate({
+                            top: (-delta * currentPane) + "px"
+                        }, animParams);
+                    } else {
+                        list.animate({
+                            left: (-delta * currentPane) + "px"
+                        }, animParams);
+                    }
                 }
             });
             
             carousel.bind("carousel-move", function(e, panes) {
+                var lastPane = currentPane;
                 panes = panes || 1;
                 currentPane += panes * defaults.panesToMove;
-                carousel.trigger("carousel-jump", currentPane);
+                carousel.trigger("carousel-jump", [currentPane, lastPane]);
                 if (carousel.data("playing") && !defaults.loop && currentPane == numPanes)
                     carousel.trigger("carousel-pause");
             });
@@ -208,6 +215,8 @@
             
             // Initialisation complete; fire her up.
             
+            carousel.trigger("carousel-nav-state");
+            
             if (defaults.autoplay) {
                 carousel.trigger("carousel-play");
             } else {
@@ -216,5 +225,30 @@
         });
         
         return this;
+    };
+    
+    $.fn.carousel.fade = function(carousel, current, next, animParams) {
+        var currentPaneEl   = carousel.find(".clip>ul>li").eq(current),
+            nextPaneEl      = carousel.find(".clip>ul>li").eq(next),
+            list            = carousel.find(".clip>ul");
+        
+        currentPaneEl
+            .css('position', 'absolute')
+            .css('top', '0')
+            .css('left', '0')
+            .css('z-index', '1');
+        
+        nextPaneEl
+            .hide()
+            .css('position', 'absolute')
+            .css('top', '0')
+            .css('left', '0')
+            .css('z-index', '2');
+        
+        animParams.complete = function() {
+            currentPaneEl.hide();
+            carousel.trigger("carousel-nav-state");
+        };
+        nextPaneEl.fadeIn(animParams);
     };
 })(jQuery);

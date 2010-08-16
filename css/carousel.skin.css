@@ -15,6 +15,7 @@
     -moz-opacity:   0.7;
     -khtml-opacity: 0.7;
     opacity:        0.7;
+    z-index:        100;
 }
 .carousel .controls .basic {
     bottom:         auto;

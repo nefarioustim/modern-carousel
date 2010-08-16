@@ -25,7 +25,7 @@
         <div id="page">
             <h1>Carousel widget: Basic</h1>
             
-            <h2>Example 1</h2>
+            <!-- <h2>Example 1</h2>
             <ul>
                 <li>Pagination</li>
                 <li>No looping</li>
@@ -72,6 +72,18 @@
                         <li><img src="img/spa.png" alt="Family" width="220" height="220"></li>
                     </ul>
                 </div>
+            </div> -->
+            
+            <h2>Example 4</h2>
+            <div class="carousel" id="example4">
+                <div class="clip">
+                    <ul>
+                        <li><img src="img/family.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/luxury.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/romantic.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/spa.png" alt="Family" width="220" height="220"></li>
+                    </ul>
+                </div>
             </div>
         </div>
         
@@ -91,6 +103,12 @@
                 "loop": true,
                 "autoplay": true,
                 "hovercontrols": true
+            });
+            $("#example4").carousel({
+                "loop": true,
+                "autoplay": false,
+                "hovercontrols": true,
+                "transition": "fade"
             });
         </script>
     </body>
