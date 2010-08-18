@@ -17,4 +17,5 @@
             .carousel .clip>ul.horizontal>li {
                 display:    -moz-inline-box;
                 display:    inline-block;
+                *display:   inline;
             }

@@ -24,6 +24,7 @@
     .carousel .controls li {
         display:    -moz-inline-box;
         display:    inline-block;
+        *display:   inline;
         padding:    4px 8px;
     }
     .carousel .controls button {
