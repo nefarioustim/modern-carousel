@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Carousel — Widgets</title>
+        <link rel="stylesheet" href="css/reset.css" type="text/css" charset="utf-8">
+        <link rel="stylesheet" href="css/core.css" type="text/css" charset="utf-8">
+        <link rel="stylesheet" href="css/carousel.core.css" type="text/css" charset="utf-8">
+        <link rel="stylesheet" href="css/carousel.skin.css" type="text/css" charset="utf-8">
+        <style type="text/css">
+            .carousel {
+                padding:        20px;
+                width:          220px;
+            }
+                .carousel img {
+                    display:        block;
+                }
+                .carousel .clip,
+                .carousel .controls {
+                    height:         220px;
+                    width:          220px;
+                }
+                .carousel .controls {
+                    top:            20px;
+                }
+            #example4 .clip,
+            #example4 .controls {
+                height: 240px;
+                width:  480px;
+            }
+            #example4 .clip {
+                border: 1px solid #ccc;
+            }
+                #example4 .clip>ul>li {
+                    padding:    10px;
+                }
+        </style>
+    </head>
+    <body>
+        <div id="page">
+            <h1>Widgets: Carousel</h1>
+            
+            <p>This is a carousel script for jQuery that is easily configurable
+            in a multitude of ways. The script also includes hooks for custom
+            transitions, should you wish to add them.</p>
+
+            <h2>Modern</h2>
+
+            <p>This carousel has been written with modern browsers in mind. By
+            “modern”, I mean any with a <em>reasonable</em> support for CSS2.
+            As a result, it won't display correctly in IE6 without a bit of
+            hackery in the CSS files to remove unsupported selectors and
+            properties.</p>
+            
+            <h2>Demos</h2>
+            
+            <h3>Example 1</h3>
+            
+            <p>This example is set up with the following configuration:</p>
+            
+            <ul>
+                <li>Default configuration</li>
+            </ul>
+            
+            <div class="carousel" id="example1">
+                <div class="clip">
+                    <ul class="horizontal">
+                        <li><img src="img/family.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/luxury.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/romantic.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/spa.png" alt="Family" width="220" height="220"></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Example 2</h3>
+            
+            <p>This example is set up with the following configuration:</p>
+            
+            <ul>
+                <li>Looping</li>
+                <li>Autoplay</li>
+                <li>Controls display on hover</li>
+                <li>Pauses on hover</li>
+            </ul>
+            
+            <div class="carousel" id="example2">
+                <div class="clip">
+                    <ul class="horizontal">
+                        <li><img src="img/family.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/luxury.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/romantic.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/spa.png" alt="Family" width="220" height="220"></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Example 3</h3>
+            
+            <p>This example is set up with the following configuration:</p>
+            
+            <ul>
+                <li>Vertical motion</li>
+                <li>Autoplay</li>
+                <li>Controls display on hover</li>
+                <li>No pagination</li>
+            </ul>
+            
+            <div class="carousel" id="example3">
+                <div class="clip">
+                    <ul class="vertical">
+                        <li><img src="img/family.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/luxury.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/romantic.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/spa.png" alt="Family" width="220" height="220"></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Example 4</h3>
+            
+            <p>This example is set up with the following configuration:</p>
+            
+            <ul>
+                <li>View two panes</li>
+                <li>Move by two panes</li>
+                <li>Looping</li>
+                <li>Autoplay</li>
+                <li>Controls display on hover</li>
+                <li>Pauses on hover</li>
+            </ul>
+            
+            <div class="carousel" id="example4">
+                <div class="clip">
+                    <ul class="horizontal">
+                        <li><img src="img/family.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/luxury.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/romantic.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/spa.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/family.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/luxury.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/romantic.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/spa.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/family.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/luxury.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/romantic.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/spa.png" alt="Family" width="220" height="220"></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Example 5</h3>
+            
+            <p>This example is set up with the following configuration:</p>
+            
+            <ul>
+                <li>Custom “fade” transition</li>
+                <li>Looping</li>
+                <li>Controls display on hover</li>
+            </ul>
+            
+            <div class="carousel" id="example5">
+                <div class="clip">
+                    <ul>
+                        <li><img src="img/family.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/luxury.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/romantic.png" alt="Family" width="220" height="220"></li>
+                        <li><img src="img/spa.png" alt="Family" width="220" height="220"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <script type="text/javascript" src="js/jquery-1.4.2.min.js" charset="utf-8"></script>
+        <script type="text/javascript" src="js/jquery.carousel.2.0.js" charset="utf-8"></script>
+        <script type="text/javascript">
+            $("#example1").carousel();
+            $("#example2").carousel({
+                "loop": true,
+                "autoplay": true,
+                "hovercontrols": true,
+                "hoverpause": true
+            });
+            $("#example3").carousel({
+                "loop": true,
+                "autoplay": true,
+                "hovercontrols": true,
+                "pagination": false
+            });
+            $("#example4").carousel({
+                "visiblePanes": 2,
+                "panesToMove": 2,
+                "loop": true,
+                "autoplay": true,
+                "hovercontrols": true,
+                "hoverpause": true
+            });
+            $("#example5").carousel({
+                "loop": true,
+                "hovercontrols": true,
+                "transition": "fade"
+            });
+        </script>
+    </body>
+</html>

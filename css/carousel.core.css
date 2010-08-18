@@ -9,6 +9,7 @@
     }
     .carousel .clip {
         overflow:           auto;
+        position:           relative;
     }
         .carousel .clip>ul.horizontal {
             white-space:    nowrap;

@@ -11,6 +11,6 @@ This carousel has been written with modern browsers in mind. By "modern", I mean
 Demo
 ----
 
-You can find a demo running here:
+You can find examples of implementation here:
 
-[Nefarious Designs - Widgets - Carousel](http://nefariousdesigns.co.uk/projects/widgets/carousel/demo.html)
+[Nefarious Designs - Widgets - Carousel](http://nefariousdesigns.co.uk/projects/widgets/carousel/)

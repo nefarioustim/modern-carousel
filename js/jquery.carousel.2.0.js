@@ -1,5 +1,5 @@
 (function($) {
-    var debugMode = true;
+    var debugMode = false;
     
     function debug(msg) {
         if(debugMode && window.console && window.console.log){
@@ -164,7 +164,15 @@
                 };
                 
                 if (defaults.transition) {
-                    carousel.carousel[defaults.transition](carousel, lastPane, currentPane, animParams);
+                    var transConfig = {
+                        "carousel":     carousel,
+                        "defaults":     defaults,
+                        "delta":        delta,
+                        "last":         lastPane,
+                        "current":      currentPane,
+                        "anim":         animParams
+                    }
+                    carousel.carousel[defaults.transition](transConfig);
                 } else {
                     if (defaults.aspectVert) {
                         list.animate({
@@ -227,10 +235,10 @@
         return this;
     };
     
-    $.fn.carousel.fade = function(carousel, current, next, animParams) {
-        var currentPaneEl   = carousel.find(".clip>ul>li").eq(current),
-            nextPaneEl      = carousel.find(".clip>ul>li").eq(next),
-            list            = carousel.find(".clip>ul");
+    $.fn.carousel.fade = function(config) {
+        var currentPaneEl   = config.carousel.find(".clip>ul>li").eq(config.last),
+            nextPaneEl      = config.carousel.find(".clip>ul>li").eq(config.current),
+            list            = config.carousel.find(".clip>ul");
         
         currentPaneEl
             .css('position', 'absolute')
@@ -245,10 +253,10 @@
             .css('left', '0')
             .css('z-index', '2');
         
-        animParams.complete = function() {
+        config.anim.complete = function() {
             currentPaneEl.hide();
-            carousel.trigger("carousel-nav-state");
+            config.carousel.trigger("carousel-nav-state");
         };
-        nextPaneEl.fadeIn(animParams);
+        nextPaneEl.fadeIn(config.anim);
     };
 })(jQuery);

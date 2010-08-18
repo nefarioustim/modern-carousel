@@ -1,7 +1,7 @@
 html, body {
     background: #eee;
     color:      #666;
-    font:       13px/1.4 helvetica, arial, sans-serif;
+    font:       14px/1.4 helvetica, "trebuchet ms", sans-serif;
     margin:     20px;
     text-align: center;
 }
@@ -11,8 +11,26 @@ h1 {
     margin:     0 0 20px;
 }
 h2 {
+    border-bottom:  1px solid #ccc;
     font-size:  24px;
-    margin:     0 0 10px;
+    margin:     20px 0;
+}
+h3 {
+    font-size:  18px;
+    font-style: italic;
+    margin:     20px 0 5px;
+}
+
+p {
+    margin:     10px 0;
+}
+
+em {
+    font-style: italic;
+}
+
+ul {
+    margin-left:        1em;
 }
 
 li {
@@ -21,9 +39,12 @@ li {
 }
 
 #page {
-    background: #fff;
-    width:      700px;
-    margin:     0 auto;
-    padding:    20px;
-    text-align: left;
+    background:             #fff;
+    width:                  700px;
+    margin:                 0 auto;
+    padding:                20px;
+    text-align:             left;
+    -moz-border-radius:     8px;
+    -webkit-border-radius:  8px;
+    border-radius:          8px;
 }
