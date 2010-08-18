@@ -6,6 +6,9 @@ html, body {
     text-align: center;
 }
 
+h1, h2, h3 {
+    color:      #333;
+}
 h1 {
     font-size:  32px;
     margin:     0 0 20px;
