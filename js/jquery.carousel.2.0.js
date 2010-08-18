@@ -251,17 +251,21 @@
             list            = config.carousel.find(".clip>ul");
         
         currentPaneEl
-            .css('position', 'absolute')
-            .css('top', '0')
-            .css('left', '0')
-            .css('z-index', '1');
+            .css({
+              'position' : 'absolute',
+              'top' : '0',
+              'left' : '0',
+              'z-index' : '1'
+            });
         
         nextPaneEl
             .hide()
-            .css('position', 'absolute')
-            .css('top', '0')
-            .css('left', '0')
-            .css('z-index', '2');
+            .css({
+              'position' : 'absolute',
+              'top' : '0',
+              'left' : '0',
+              'z-index' : '2'
+            });
         
         config.anim.complete = function() {
             currentPaneEl.hide();
