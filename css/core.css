@@ -2,7 +2,7 @@ html, body {
     background: #eee;
     color:      #666;
     font:       14px/1.4 helvetica, "trebuchet ms", sans-serif;
-    margin:     20px;
+    padding:    20px;
     text-align: center;
 }
 
@@ -36,6 +36,15 @@ ul {
 li {
     list-style-type:    disc;
     margin-left:        1em;
+}
+
+a {
+    color:              #36c;
+    text-decoration:    none;
+}
+a:focus,
+a:hover {
+    text-decoration:    underline;
 }
 
 #page {
