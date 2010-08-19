@@ -51,8 +51,10 @@
             carousel.data("playing", false);
             
             clip.css("overflow", "hidden");
-            list.css("position", "relative");
-            list.cleanWhitespace();
+            list.css({
+                "position": "relative"
+            });
+            clip.cleanWhitespace();
             
             var clipWidth = clip.width(),
                 clipHeight = clip.get(0).offsetHeight,
@@ -197,6 +199,9 @@
             });
             
             carousel.bind("carousel-move", function(e, panes) {
+                clip.cleanWhitespace();
+                numPanes = list.find(">li").length - defaults.visiblePanes;
+                debug(numPanes);
                 var lastPane = currentPane;
                 panes = panes || 1;
                 currentPane += panes * defaults.panesToMove;
