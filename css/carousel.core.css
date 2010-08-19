@@ -3,9 +3,13 @@
 }
     .carousel ul,
     .carousel li {
+        letter-spacing:     1ex;
         list-style-type:    none;
         margin:             0;
         padding:            0;
+    }
+    .carousel li {
+        letter-spacing:     normal;
     }
     .carousel .clip {
         overflow:           auto;
