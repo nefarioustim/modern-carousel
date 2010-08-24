@@ -59,7 +59,7 @@
             var clipWidth = clip.width(),
                 clipHeight = clip.get(0).offsetHeight,
                 currentPane = 0,
-                numPanes = panels.length - defaults.visiblePanes,
+                numPanes = panels.length,
                 delta = defaults.aspectVert ? Math.floor(clipHeight / defaults.visiblePanes) : Math.floor(clipWidth / defaults.visiblePanes);
             
             // Build basic carousel controls
@@ -159,11 +159,37 @@
                 }
             });
             
+            carousel.bind("carousel-move", function(e, panes) {
+                clip.cleanWhitespace();
+                numPanes = list.find("> li").length;
+                var lastPane = currentPane;
+                panes = panes || 1;
+                
+                currentPane += panes * defaults.panesToMove;
+                
+                if (currentPane + (defaults.visiblePanes - defaults.panesToMove) >= numPanes) {
+                    if (defaults.loop) {
+                        currentPane = 0;
+                    }
+                } else if (currentPane <= -defaults.panesToMove) {
+                    if (defaults.loop) {
+                        currentPane = numPanes + (panes * defaults.panesToMove);
+                    }
+                }
+                
+                carousel.trigger("carousel-jump", [currentPane, lastPane]);
+                if (carousel.data("playing") && !defaults.loop && currentPane == numPanes) {
+                    carousel.trigger("carousel-pause");
+                }
+            });
+            
             carousel.bind("carousel-jump", function(e, pane, lastPane) {
-                if (pane < 0)
-                    pane = defaults.loop ? numPanes : 0;
-                if (pane > numPanes)
-                    pane = defaults.loop ? 0 : numPanes;
+                if (pane < 0) {
+                    pane = 0;
+                }
+                if (pane > numPanes - defaults.visiblePanes) {
+                    pane = numPanes - defaults.visiblePanes;
+                }
                 
                 currentPane = pane;
                 
@@ -188,26 +214,14 @@
                 } else {
                     if (defaults.aspectVert) {
                         list.animate({
-                            top: (-delta * currentPane) + "px"
+                            top: (-delta * pane) + "px"
                         }, animParams);
                     } else {
                         list.animate({
-                            left: (-delta * currentPane) + "px"
+                            left: (-delta * pane) + "px"
                         }, animParams);
                     }
                 }
-            });
-            
-            carousel.bind("carousel-move", function(e, panes) {
-                clip.cleanWhitespace();
-                numPanes = list.find(">li").length - defaults.visiblePanes;
-                debug(numPanes);
-                var lastPane = currentPane;
-                panes = panes || 1;
-                currentPane += panes * defaults.panesToMove;
-                carousel.trigger("carousel-jump", [currentPane, lastPane]);
-                if (carousel.data("playing") && !defaults.loop && currentPane == numPanes)
-                    carousel.trigger("carousel-pause");
             });
             
             carousel.bind("carousel-prev", function(e) {
@@ -257,19 +271,19 @@
         
         currentPaneEl
             .css({
-              'position' : 'absolute',
-              'top' : '0',
-              'left' : '0',
-              'z-index' : '1'
+              'position':   'absolute',
+              'top':        '0',
+              'left':       '0',
+              'z-index':    '1'
             });
         
         nextPaneEl
             .hide()
             .css({
-              'position' : 'absolute',
-              'top' : '0',
-              'left' : '0',
-              'z-index' : '2'
+              'position':   'absolute',
+              'top':        '0',
+              'left':       '0',
+              'z-index':    '2'
             });
         
         config.anim.complete = function() {
