@@ -85,7 +85,7 @@
             basic.appendTo(controlset.appendTo(carousel));
             basic.delegate("button", "click", function(e){
                 e.preventDefault();
-                carousel.trigger("carousel-" + $(this).data("name"));
+                carousel.trigger($(this).data("name"));
             });
             
             // Carousel pagination
@@ -98,7 +98,7 @@
                 pagination.appendTo(carousel.find(".controls"));
                 pagination.delegate("button", "click", function(e){
                     e.preventDefault();
-                    carousel.trigger("carousel-jump", [e.target.value * defaults.panesToMove, currentPane]);
+                    carousel.trigger("jump", [e.target.value * defaults.panesToMove, currentPane]);
                 });
             }
             
@@ -114,7 +114,7 @@
                 if (defaults.hoverpause) {
                     if (carousel.data("playing"))
                         var play = true;
-                    carousel.trigger("carousel-pause");
+                    carousel.trigger("pause");
                     if (play)
                         carousel.data("playing", true);
                 }
@@ -123,7 +123,7 @@
                     controlset
                         .fadeOut({"duration": 200, "queue": false});
                 if (defaults.hoverpause && carousel.data("playing"))
-                    carousel.trigger("carousel-play");
+                    carousel.trigger("play");
             });
             
             // Handy functions
@@ -142,9 +142,23 @@
                 }
             }
             
+            carousel.delegate(".clip > ul > li *", "focus", function(e) {
+                var idx = $(e.target)
+                            .closest(".clip > ul > li")
+                            .index();
+                
+                if (idx > (defaults.visiblePanes + currentPane) - 1) {
+                    carousel.trigger("pause");
+                    carousel.trigger("jump", idx);
+                } else if (idx < currentPane) {
+                    carousel.trigger("pause");
+                    carousel.trigger("jump", idx - defaults.visiblePanes);
+                }
+            });
+            
             // Eventmageddon!
             
-            carousel.bind("carousel-nav-state", function() {
+            carousel.bind("nav-state.carousel", function() {
                 if (!defaults.loop) {
                     active(controls["prev"], !(currentPane == 0));
                     active(controls["next"], !(currentPane == numPanes));
@@ -159,7 +173,7 @@
                 }
             });
             
-            carousel.bind("carousel-move", function(e, panes) {
+            carousel.bind("move.carousel", function(e, panes) {
                 clip.cleanWhitespace();
                 numPanes = list.find("> li").length;
                 var lastPane = currentPane;
@@ -177,13 +191,13 @@
                     }
                 }
                 
-                carousel.trigger("carousel-jump", [currentPane, lastPane]);
+                carousel.trigger("jump", [currentPane, lastPane]);
                 if (carousel.data("playing") && !defaults.loop && currentPane == numPanes) {
-                    carousel.trigger("carousel-pause");
+                    carousel.trigger("pause");
                 }
             });
             
-            carousel.bind("carousel-jump", function(e, pane, lastPane) {
+            carousel.bind("jump.carousel", function(e, pane, lastPane) {
                 if (pane < 0) {
                     pane = 0;
                 }
@@ -197,7 +211,7 @@
                     duration: defaults.speed,
                     queue: false,
                     complete: function(){
-                        carousel.trigger("carousel-nav-state");
+                        carousel.trigger("nav-state");
                     }
                 };
                 
@@ -224,26 +238,26 @@
                 }
             });
             
-            carousel.bind("carousel-prev", function(e) {
-                carousel.trigger("carousel-pause");
-                carousel.trigger("carousel-move", -1);
+            carousel.bind("prev.carousel", function(e) {
+                carousel.trigger("pause");
+                carousel.trigger("move", -1);
             });
             
-            carousel.bind("carousel-next", function(e) {
-                carousel.trigger("carousel-pause");
-                carousel.trigger("carousel-move", 1);
+            carousel.bind("next.carousel", function(e) {
+                carousel.trigger("pause");
+                carousel.trigger("move", 1);
             });
             
-            carousel.bind("carousel-play", function(e) {
+            carousel.bind("play.carousel", function(e) {
                 carousel.data("playing", true);
                 active(controls["play"], false);
                 active(controls["pause"], true);
                 timer = window.setInterval(function() {
-                    carousel.trigger("carousel-move", 1);
+                    carousel.trigger("move", 1);
                 }, defaults.delay);
             });
             
-            carousel.bind("carousel-pause", function(e) {
+            carousel.bind("pause.carousel", function(e) {
                 carousel.data("playing", false);
                 active(controls["pause"], false);
                 active(controls["play"], true);
@@ -252,12 +266,12 @@
             
             // Initialisation complete; fire her up.
             
-            carousel.trigger("carousel-nav-state");
+            carousel.trigger("nav-state");
             
             if (defaults.autoplay) {
-                carousel.trigger("carousel-play");
+                carousel.trigger("play");
             } else {
-                carousel.trigger("carousel-pause");
+                carousel.trigger("pause");
             }
         });
         
@@ -288,7 +302,7 @@
         
         config.anim.complete = function() {
             currentPaneEl.hide();
-            config.carousel.trigger("carousel-nav-state");
+            config.carousel.trigger("nav-state");
         };
         nextPaneEl.fadeIn(config.anim);
     };
