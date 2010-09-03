@@ -34,6 +34,27 @@
                 #example4 .clip>ul>li {
                     padding:    10px;
                 }
+            #example6,
+            #example6 .clip,
+            #example6 .controls {
+                height:         100px;
+                min-height:     100px;
+                max-height:     100px;
+            }
+                #example6 .controls .prev,
+                #example6 .controls .next {
+                    top:            40px;
+                }
+            #example6 .clip {
+                font-size:      32px;
+            }
+                #example6 .clip li {
+                    background:     #333;
+                    color:          #fff;
+                    line-height:    100px;
+                    text-align:     center;
+                    width:          220px;
+                }
         </style>
     </head>
     <body>
@@ -175,10 +196,42 @@
                     </ul>
                 </div>
             </div>
+            
+            <h3>Example 6</h3>
+            
+            <p>Epic carousel example:</p>
+            
+            <div class="carousel" id="example6">
+                <div class="clip">
+                    <ul class="horizontal">
+                        <li>This</li>
+                        <li>is</li>
+                        <li>an</li>
+                        <li>epic</li>
+                        <li>carousel</li>
+                        <li>example</li>
+                        <li>to see</li>
+                        <li>if it still</li>
+                        <li>has</li>
+                        <li>the</li>
+                        <li>occasional</li>
+                        <li>whitespace</li>
+                        <li>issue</li>
+                        <li>when</li>
+                        <li>coping</li>
+                        <li>with</li>
+                        <li>lots</li>
+                        <li>of</li>
+                        <li>panels.</li>
+                        <li>So&hellip;</li>
+                        <li>does it?</li>
+                    </ul>
+                </div>
+            </div>
         </div>
         
         <script type="text/javascript" src="js/jquery-1.4.2.min.js" charset="utf-8"></script>
-        <script type="text/javascript" src="js/jquery.carousel.2.1.min.js" charset="utf-8"></script>
+        <script type="text/javascript" src="js/jquery.carousel.2.1.js" charset="utf-8"></script>
         <script type="text/javascript">
             $("#example1").carousel();
             $("#example2").carousel({
@@ -205,6 +258,12 @@
                 "loop": true,
                 "hovercontrols": true,
                 "transition": "fade"
+            });
+            $("#example6").carousel({
+                "loop": true,
+                "autoplay": false,
+                "hovercontrols": true,
+                "pagination": false
             });
         </script>
     </body>
