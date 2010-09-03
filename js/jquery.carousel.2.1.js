@@ -9,7 +9,7 @@
  */
  
 (function($) {
-    var debugMode = true;
+    var debugMode = false;
     
     function debug(msg) {
         if(debugMode && window.console && window.console.log){
