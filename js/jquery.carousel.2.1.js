@@ -213,9 +213,12 @@
                 
                 currentPane = pane;
                 
+                // If you start seeing strange animation jumps when your
+                // carousel has a large number of panels, try uncommenting
+                // the queue parameter below.
                 var animParams = {
                     duration: defaults.speed,
-                    queue: false,
+                    // queue: false,
                     complete: function(){
                         carousel.trigger("nav-state");
                     }
