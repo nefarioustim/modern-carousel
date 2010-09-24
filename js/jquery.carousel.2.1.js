@@ -17,16 +17,22 @@
         }
     }
     
+    // $.fn.cleanWhitespace = function() {
+    //     this.contents().filter(function() {
+    //         if (this.nodeType != 3) {
+    //             $(this).cleanWhitespace();
+    //             return false;
+    //         }
+    //         else {
+    //             return !(/\s/.test(this.nodeValue));
+    //         }
+    //     }).remove();
+    // };
+    
+    // Get around IE8 fail
+    
     $.fn.cleanWhitespace = function() {
-        this.contents().filter(function() {
-            if (this.nodeType != 3) {
-                $(this).cleanWhitespace();
-                return false;
-            }
-            else {
-                return !/\S/.test(this.nodeValue);
-            }
-        }).remove();
+        this.html(this.html().replace(/<\/li>\s+/gi, '</li>'));
     };
     
     $.fn.carousel = function(config) {
@@ -60,7 +66,7 @@
             list.css({
                 "position": "relative"
             });
-            clip.cleanWhitespace();
+            list.cleanWhitespace();
             
             var clipWidth = clip.width(),
                 clipHeight = clip.get(0).offsetHeight,
@@ -180,7 +186,7 @@
             });
             
             carousel.bind("move.carousel", function(e, panes) {
-                clip.cleanWhitespace();
+                list.cleanWhitespace();
                 numPanes = list.find("> li").length;
                 var lastPane = currentPane;
                 panes = panes || 1;
