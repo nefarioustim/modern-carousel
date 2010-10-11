@@ -1,14 +1,8 @@
-.carousel .controls {
-    height:         100%;
-    position:       absolute;
-    top:            0;
-    width:          100%;
-    z-index:        100;
-}
-.carousel .controls .basic,
-.carousel .controls .pages {
+.skin .controls .basic,
+.skin .controls .pages {
     background:     #333;
     bottom:         0;
+    left:           0;
     position:       absolute;
     text-align:     center;
     width:          100%;
@@ -16,18 +10,19 @@
     -moz-opacity:   0.7;
     -khtml-opacity: 0.7;
     opacity:        0.7;
+    z-index:        100;
 }
-.carousel .controls .basic {
+.skin .controls .basic {
     bottom:         auto;
     top:            0;
 }
-    .carousel .controls li {
+    .skin .controls li {
         display:    -moz-inline-box;
         display:    inline-block;
         *display:   inline;
         padding:    4px 8px;
     }
-    .carousel .controls button {
+    .skin .controls button {
         background:     url(../img/controls.png) no-repeat 0 0;
         border:         0;
         cursor:         pointer;
@@ -36,33 +31,33 @@
         text-indent:    -999em;
         width:          16px;
     }
-        .carousel .controls .disabled button {
+        .skin .controls .disabled button {
             filter:         alpha(opacity=30);
             -moz-opacity:   0.3;
             -khtml-opacity: 0.3;
             opacity:        0.3;
         }
-        .carousel .controls .pause button {
+        .skin .controls .pause button {
             background-position:    -16px 0;
         }
-        .carousel .controls .prev {
+        .skin .controls .prev {
             position:   absolute;
             top:        100px;
         }
-            .carousel .controls .prev button {
+            .skin .controls .prev button {
                 background-position:    -32px 0;
             }
-        .carousel .controls .next {
+        .skin .controls .next {
             position:   absolute;
             right:      0;
             top:        100px;
         }
-            .carousel .controls .next button {
+            .skin .controls .next button {
                 background-position:    -48px 0;
             }
-        .carousel .controls .pages button {
+        .skin .controls .pages button {
             background-position:    -32px -16px;
         }
-            .carousel .controls .pages .current button {
+            .skin .controls .pages .current button {
                 background-position:    0 -16px;
             }

@@ -173,7 +173,7 @@
             carousel.bind("nav-state.carousel", function() {
                 if (!defaults.loop) {
                     active(controls["prev"], !(currentPane == 0));
-                    active(controls["next"], !(currentPane == numPanes));
+                    active(controls["next"], !(currentPane == (numPanes - defaults.panesToMove)));
                 }
                 if (defaults.pagination) {
                     carousel.find(".pages .current")
