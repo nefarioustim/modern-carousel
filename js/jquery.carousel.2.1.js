@@ -17,19 +17,7 @@
         }
     }
     
-    // $.fn.cleanWhitespace = function() {
-    //     this.contents().filter(function() {
-    //         if (this.nodeType != 3) {
-    //             $(this).cleanWhitespace();
-    //             return false;
-    //         }
-    //         else {
-    //             return !(/\s/.test(this.nodeValue));
-    //         }
-    //     }).remove();
-    // };
-    
-    // Get around IE8 fail
+    // Strip whitespace whilst dealing with IE8 DOM node absence FAIL.
     
     $.fn.cleanWhitespace = function() {
         this.html(this.html().replace(/<\/li>\s+/gi, '</li>'));
@@ -53,6 +41,7 @@
         
         this.each(function(){
             var timer,
+                wasPlaying,
                 carousel = $(this),
                 clip = carousel.find(".clip:first"),
                 list = clip.find(">ul:first"),
@@ -119,23 +108,27 @@
             
             // Carousel hover
             carousel.hover(function(e){
-                if (defaults.hovercontrols)
+                if (defaults.hovercontrols) {
                     controlset
                         .stop()
                         .fadeIn({"duration": 200, "queue": false});
+                }
                 if (defaults.hoverpause) {
-                    if (carousel.data("playing"))
-                        var play = true;
-                    carousel.trigger("pause");
-                    if (play)
+                    wasPlaying = carousel.data("playing");
+                    if (wasPlaying) {
+                        carousel.trigger("pause");
                         carousel.data("playing", true);
+                    }
                 }
             }, function(e){
-                if (defaults.hovercontrols)
+                if (defaults.hovercontrols) {
                     controlset
+                        .stop()
                         .fadeOut({"duration": 200, "queue": false});
-                if (defaults.hoverpause && carousel.data("playing"))
+                }
+                if (wasPlaying && defaults.hoverpause && carousel.data("playing")) {
                     carousel.trigger("play");
+                }
             });
             
             // Handy functions
@@ -219,12 +212,9 @@
                 
                 currentPane = pane;
                 
-                // If you start seeing strange animation jumps when your
-                // carousel has a large number of panels, try uncommenting
-                // the queue parameter below.
                 var animParams = {
                     duration: defaults.speed,
-                    // queue: false,
+                    queue: false,
                     complete: function(){
                         carousel.trigger("nav-state");
                     }
