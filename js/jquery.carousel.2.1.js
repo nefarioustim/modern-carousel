@@ -29,6 +29,7 @@
             "panesToMove": 1,
             "pagination": true,
             "speed": 200,
+            "easing": "swing",
             "loop": false,
             "autoplay": false,
             "hovercontrols": false,
@@ -214,6 +215,7 @@
                 
                 var animParams = {
                     duration: defaults.speed,
+                    easing: defaults.easing,
                     queue: false,
                     complete: function(){
                         carousel.trigger("nav-state");
