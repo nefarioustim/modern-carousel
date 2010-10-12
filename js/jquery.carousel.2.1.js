@@ -110,7 +110,7 @@
             carousel.hover(function(e){
                 if (defaults.hovercontrols) {
                     controlset
-                        .stop()
+                        .stop(true, true)
                         .fadeIn({"duration": 200, "queue": false});
                 }
                 if (defaults.hoverpause) {
@@ -123,7 +123,7 @@
             }, function(e){
                 if (defaults.hovercontrols) {
                     controlset
-                        .stop()
+                        .stop(true, true)
                         .fadeOut({"duration": 200, "queue": false});
                 }
                 if (wasPlaying && defaults.hoverpause && carousel.data("playing")) {
