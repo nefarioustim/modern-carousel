@@ -213,13 +213,12 @@
                 
                 currentPane = pane;
                 
+                carousel.trigger("nav-state");
+                
                 var animParams = {
                     duration: defaults.speed,
                     easing: defaults.easing,
-                    queue: false,
-                    complete: function(){
-                        carousel.trigger("nav-state");
-                    }
+                    queue: false
                 };
                 
                 if (defaults.transition) {
@@ -309,7 +308,6 @@
         
         config.anim.complete = function() {
             currentPaneEl.hide();
-            config.carousel.trigger("nav-state");
         };
         nextPaneEl.fadeIn(config.anim);
     };
