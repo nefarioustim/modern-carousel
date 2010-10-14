@@ -93,7 +93,7 @@
             // Carousel pagination
             
             if (defaults.pagination) {
-                var pagination = $('<fieldset><ol class="pages" />');
+                var pagination = $('<ol class="pages" />');
                 for (var i = 0; i < panels.length / defaults.panesToMove; i++) {
                     $('<li><button type="button" value="' + i + '">' + parseInt(i+1, 10) + '</button></li>').appendTo(pagination);
                 }
