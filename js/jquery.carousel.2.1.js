@@ -76,7 +76,7 @@
                 basic = $('<ul class="basic" />');
 
             $.each(controls, function(name, value){
-                controls[name]  = $('<li class="' + name + '"><button>' + name + '</button></li>')
+                controls[name]  = $('<li class="' + name + '"><button type="button">' + name + '</button></li>')
                                     .find("button")
                                     .data("name", name)
                                     .end();
@@ -93,9 +93,9 @@
             // Carousel pagination
             
             if (defaults.pagination) {
-                var pagination = $('<ol class="pages" />');
+                var pagination = $('<fieldset><ol class="pages" />');
                 for (var i = 0; i < panels.length / defaults.panesToMove; i++) {
-                    $('<li><button value="' + i + '">' + parseInt(i+1, 10) + '</button></li>').appendTo(pagination);
+                    $('<li><button type="button" value="' + i + '">' + parseInt(i+1, 10) + '</button></li>').appendTo(pagination);
                 }
                 pagination.appendTo(carousel.find(".controls"));
                 pagination.delegate("button", "click", function(e){
