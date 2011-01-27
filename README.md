@@ -11,7 +11,7 @@ This carousel has been written with modern browsers in mind. By "modern", I mean
 Demo and documentation
 ----
 
-You can find more detail documentation here:
+You can find detailed documentation here:
 
 <a xmlns:dct="http://purl.org/dc/terms/" href="http://projects.timhuegdon.com/modern-carousel/" rel="dct:source">jQuery Modern Carousel</a>
 

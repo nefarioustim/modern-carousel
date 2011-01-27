@@ -1,10 +1,10 @@
 /*!
  * jQuery Carousel widget
- * http://nefariousdesigns.co.uk/projects/widgets/carousel/
+ * http://projects.timhuegdon.com/modern-carousel/
  * 
  * Source code: http://github.com/nefarioustim/modern-carousel/
  *
- * Copyright © 2010 Tim Huegdon
+ * Copyright © 2010 Tim Huegdon under a Creative Commons Attribution-ShareAlike 3.0 Unported License.
  * http://timhuegdon.com
  */
  
